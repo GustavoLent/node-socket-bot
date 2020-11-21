@@ -1,0 +1,32 @@
+{
+  "name": "socket-server",
+  "version": "1.0.0",
+  "description": "Server to handle a socket connection",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r esm server.js",
+    "client": "node -r esm client.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustavoLent/node-socket-bot.git"
+  },
+  "keywords": [
+    "socket",
+    "server"
+  ],
+  "author": "Gustavo Lima Lent",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GustavoLent/node-socket-bot/issues"
+  },
+  "homepage": "https://github.com/GustavoLent/node-socket-bot#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "esm": "^3.2.25",
+    "mysql-await": "^2.1.6",
+    "repl": "^0.1.3",
+    "socket.io": "^3.0.3",
+    "socket.io-client": "^3.0.3"
+  }
+}

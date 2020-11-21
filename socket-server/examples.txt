@@ -1,0 +1,1 @@
+{"action":"insertSubscribers","subscribers":"[{\"Name\":\"Gustavo\", \"Phone\":\"+5519983563057\"}, {\"Name\":\"Meyrielle\", \"Phone\":\"+5519983563058\"}, {\"Name\":\"Vinícius\", \"Phone\":\"+5519923563058\"}]"}
