@@ -1,8 +1,18 @@
 import mysql from 'mysql-await'
+import ResponseService from './responseService'
 
 export default class DbService{
     constructor(){
         this.conn = this.createConnection()
+        this.response = new ResponseService()
+    }
+
+    cautiousSemicolonInsertion (query){
+        query = Array.from(query)
+        let lastCommaIndex = query.length-1
+        query[lastCommaIndex] = ";"
+        query = query.join("")
+        return query
     }
 
     createConnection(){
@@ -16,36 +26,97 @@ export default class DbService{
         })
     }
 
-    async getSubscribers(){
-        let { conn } = this
-        let result = await conn.awaitQuery(`SELECT * FROM subscribers`) 
-        return result
+    async getAllSubscribers(){
+        let { conn, response } = this
+        try{
+            let result = await conn.awaitQuery(`SELECT * FROM subscribers`) 
+            result = JSON.stringify(result)
+
+            if(result !== '[]')
+                return response.successResponse("Aqui estão todos os inscritos na Seccomp de 2020!", result)
+            else    
+                return response.errorResponse("Não foram encontrados inscritos na Seccomp de 2020.")
+        } catch (error) {
+            return response.errorResponse(`Não foi possível realizar a busca. Segue mensagem de erro: ${error.message}`)
+        }
+        
+    }
+
+    async getMessageRecievers(){
+        let { conn, response } = this
+        try{
+            let result = await conn.awaitQuery(`SELECT * FROM subscribers where MessageReciever = 1;`) 
+            result = JSON.stringify(result)
+            
+            if(result !== '[]')
+                return response.successResponse("Aqui estão todos os inscritos na Seccomp de 2020 que desejam receber mensagens!", result)
+            else    
+                return response.errorResponse("Não foram encontrados inscritos na Seccomp de 2020 que desejam receber mensagens.")
+    
+        } catch (error) {
+            return response.errorResponse(`Não foi possível realizar a busca. Segue mensagem de erro: ${error.message}`)
+        }
+    }
+
+    async getNoMessageRecievers(){
+        let { conn, response } = this
+        try{
+            let result = await conn.awaitQuery(`SELECT * FROM subscribers where MessageReciever = 0;`) 
+            result = JSON.stringify(result)
+            
+            if(result !== '[]')
+                return response.successResponse("Aqui estão todos os inscritos na Seccomp de 2020 que não desejam receber mensagens!", result)
+            else    
+                return response.errorResponse("Não foram encontrados inscritos na Seccomp de 2020 que não desejam receber mensagens.")
+    
+        } catch (error) {
+            return response.errorResponse(`Não foi possível realizar a busca. Segue mensagem de erro: ${error.message}`)
+        }
     }
 
     async insertSubscribers(subscribers){
-        let { conn } = this
-        this.prepareInsert(subscribers)
-        //let result = await conn.awaitQuery(``)
+        let { conn, response } = this
+        let mappedInsert = this.prepareInsert(subscribers)
+        let query = mappedInsert.query
+        let subscribersWithBadFormat = mappedInsert.errors
+        if(query){
+            try{
+                let result = await conn.awaitQuery(query)
+                console.log(`query result: ${result}`)
+                
+                if(subscribersWithBadFormat.length > 0)
+                    return response.successResponse(`Alguns inscritos foram inseridos com sucesso. Porém, revise a formatação para os seguintes inscritos: ${JSON.stringify(subscribersWithBadFormat)}`, null)
+                return response.successResponse("Novos inscritos inseridos com sucesso!", null)
+            } catch(error){
+                return response.errorResponse(`Não foi possível realizar a inserção. Segue mensagem de erro: ${error.message}`)
+            }
+        } else {
+            return response.errorResponse("Os inscritos não foram inseridos pois é necessário revisar a formatação.")
+        }
+
     }
 
     prepareInsert(subscribers){
         let query = "INSERT INTO subscribers(Name, Phone) VALUES "
+        let values = ""
+        let errors = []
+
         subscribers.forEach(subscriber => {
             if(subscriber.Name !== undefined && subscriber.Phone !== undefined){
-                query += `("${subscriber.Name}","${subscriber.Phone}"),`
+                values += `("${subscriber.Name}","${subscriber.Phone}"),`
+            } else{
+                errors.push(subscriber)
             }
         });
-        query = this.cautiousSemicolonInsertion(query)
-        console.log(query)
-        return query
-    }
 
-    cautiousSemicolonInsertion (query){
-        query = Array.from(query)
-        let lastCommaIndex = query.length-1
-        query[lastCommaIndex] = ";"
-        query = query.join("")
-        return query
+        if(values.length > 0){
+            values = this.cautiousSemicolonInsertion(values)
+            query += values
+            console.log(query)
+            return {query, errors}
+        } else {
+            return {"query": null, errors}
+        }
     }
 
 }

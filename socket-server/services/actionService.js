@@ -1,25 +1,33 @@
-import DbService from './dbService'
-const dbService = new DbService()
+import ResponseService from './responseService'
+import SubscribersService from './subscribersService'
+
+const responseService = new ResponseService()
+const subscribersService = new SubscribersService()
 
 export default class ActionService{
     async indetifyAction(message){
         let parsedMessage = JSON.parse(message)
-        let action = parsedMessage.action
-        console.log(`${action}`)
+        let action = parsedMessage.action.toUpperCase()
+        
         switch(action){
-            case "insertSubscribers":
-                let subscribers = this.identifySubscribers(parsedMessage)
-                if(subscribers)
-                await dbService.insertSubscribers(subscribers)  
-        }
-    }
+            case "INSERTSUBSCRIBERS": {
+                return await subscribersService.insertSubscribers(parsedMessage)                
+            }
 
-    identifySubscribers(message){
-        try{
-            let subscribers = JSON.parse(message.subscribers)
-            return subscribers
-        } catch(error){
-            return null
+            case "GETALLSUBSCRIBERS": {
+                return await subscribersService.getAllSubscribers()
+            }
+
+            case "GETMESSAGERECIEVERS": {
+                return await subscribersService.getMessageRecievers()
+            }
+
+            case "GETNOMESSAGERECIEVERS": {
+                return await subscribersService.getNoMessageRecievers()
+            }
+
+            default:
+                return responseService.errorResponse("Comando inválido.")
         }
     }
 
