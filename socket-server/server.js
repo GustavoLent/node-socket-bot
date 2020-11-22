@@ -12,11 +12,18 @@ io.on('connection', async (socket) => {
 
     socket.on('message', async (data) => {
         let response = await actionService.indetifyAction(data)
-        socket.emit('message', response)
+
+        if(response.spread && response.data.linkPreview === null){
+            socket.broadcast.emit('sendSimpleMessage', response.data)
+            socket.emit('message', response.commandCallback)
+        }
+        else if(response.spread && response.data.linkPreview !== null){
+            socket.broadcast.emit('sendMessageWithLink', response.data)
+            socket.emit('message', response.commandCallback)
+        }
+        else if(!response.spread){
+            socket.emit('message', response)
+        }
     })
 
-})
-
-io.on('disconnect', (evt) => {
-    console.log('disconnected')
 })

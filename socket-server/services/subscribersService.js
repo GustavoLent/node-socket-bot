@@ -39,4 +39,14 @@ export default class SubscribersService{
         }
     }
 
+    async setSubscriberAsNoMessageReciever(userPhone){
+        let { db } = this
+        return await db.setSubscriberAsNoMessageReciever(userPhone)
+    }
+
+    async setSubscriberAsMessageReciever(userPhone){
+        let { db } = this
+        return await db.setSubscriberAsMessageReciever(userPhone)
+    }
+
 }

@@ -7,21 +7,37 @@ socket.on('disconnect', function() {
 });
 
 socket.on('connect', () => {
-    console.log(chalk.green('=== start chatting ==='))
+    console.log(chalk.yellow('=== Conectado com o socket da Seccomp! ==='))
+    
+    console.log("\n" + chalk.cyan(`Bem vindo, segue a lista de comandos disponíveis:`))
+    
+    console.log("\n" + chalk.cyan(`{"action":"insertSubscribers","subscribers":"[{\"Name\":\"Gustavo\", \"Phone\":\"00000000\"}, {\"Name\":\"José\", \"Phone\":\"00000000\"}]"}`))
+    console.log(chalk.red(`Observação:`) + chalk.white(`Este comando possui um array de objetos, separados por vírgula.\nPor isso, é importante usar o escape (\"\") para delimitar as informações Name e Phone, que devem ser escritas exatamente assim!`))
+    
+    console.log("\n" + chalk.cyan(`{"action":"sendMessageWithLink","text":"Este evento já vai começar, não perca!!!","link":"https://www.youtube.com/watch?v=qxBMyq_TbGA&list=PLR6hBJiWw_k-LufkmrZgT5sMNTLfodKxK&index=2"}`))
+    console.log("\n" + chalk.cyan(`{"action":"getAllSubscribers"}`))
+    console.log("\n" + chalk.cyan(`{"action":"GetMessageRecievers"}`))
+    console.log("\n" + chalk.cyan(`{"action":"GetNoMessageRecievers"}`))
+    console.log("\n" + chalk.cyan(`{"action":"setSubscriberAsNoMessageReciever","phone":"00000000"}`))
+    console.log("\n" + chalk.cyan(`{"action":"setSubscriberAsMessageReciever","phone":"0000000"}`))
+
+    console.log(chalk.yellow('\nBasta digitar o comando!\n'))
+
 })
 
 socket.on('message', (incomming) => {
-    
     if(incomming.success){
-        console.log(chalk.green("Mensagem do servidor: ") + incomming.message)
-        console.log(chalk.blue("Data do servidor: ") + incomming.data)
-    } else {
-        console.log(chalk.red("Mensagem do servidor: ") + incomming.message)
+        console.log(chalk.green("\nMensagem do servidor: ") + incomming.message)
         if(incomming.data)
-            console.log(chalk.grey("Data do servidor: ") + incomming.data)
+            console.log(chalk.blue("Data do servidor: ") + JSON.stringify(incomming.data))
+    } else {
+        console.log(chalk.red("\nMensagem do servidor: ") + incomming.message)
+        if(incomming.data)
+            console.log(chalk.grey("Data do servidor: ") + JSON.stringify(incomming.data))
     }
-    //const { cmd, username } = data
-    //console.log(chalk.green(username + ': ' + cmd.split('\n')[0]));
+
+    console.log('')
+
 })
 
 repl.start({

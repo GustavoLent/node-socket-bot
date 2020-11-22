@@ -1,0 +1,28 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "Whatsapp bot to bulk messages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustavoLent/node-socket-bot.git"
+  },
+  "keywords": [
+    "bot",
+    "whatsapp"
+  ],
+  "author": "Gustavo Lima Lent",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GustavoLent/node-socket-bot/issues"
+  },
+  "homepage": "https://github.com/GustavoLent/node-socket-bot#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "socket.io-client": "^3.0.3",
+    "venom-bot": "^2.0.23"
+  }
+}

@@ -119,4 +119,57 @@ export default class DbService{
         }
     }
 
+    async getSubscriberByPhone(subscriberPhone){
+        let { conn, response } = this
+
+        try{
+            let queryResult = await conn.awaitQuery(`SELECT * FROM subscribers WHERE Phone = ${subscriberPhone}`)
+            queryResult = queryResult[0]
+
+            if(queryResult.length > 0 || queryResult != '[]')
+                return response.successResponse("Sucesso ao identificar inscrito por número de telefone!", queryResult)
+            return response.errorResponse("Não foi encontrado algum inscrito com este número.")
+        } catch (error){
+            console.log(`Error in dbService.getSubscriberByPhone: ${error.message}`)
+            return response.errorResponse("Erro ao identificar inscrito por número de telefone.")
+        }
+
+    }
+
+    async setSubscriberAsNoMessageReciever(subscriberPhone){
+        let { conn, response } = this
+        
+        let result = await this.getSubscriberByPhone(subscriberPhone)
+        if(result.success){
+            let subscriberID = result.data.ID
+            console.log(subscriberID)
+            try{
+                await conn.awaitQuery(`UPDATE subscribers SET MessageReciever = 0 WHERE ID = ${subscriberID}`)
+                return response.successResponse("Inscrito definido como não recebedor de mensagem!")
+            }catch(error){
+                console.log(`Error in dbService.setSubscriberAsNoMessageReciever: ${error.message}`)
+                return response.errorResponse("Não foi possível definir inscrito como não recebedor de mensagens.")
+            }
+        }
+        return result
+    }
+
+    async setSubscriberAsMessageReciever(subscriberPhone){
+        let { conn, response } = this
+        
+        let result = await this.getSubscriberByPhone(subscriberPhone)
+        if(result.success){
+            let subscriberID = result.data.ID
+            console.log(subscriberID)
+            try{
+                await conn.awaitQuery(`UPDATE subscribers SET MessageReciever = 1 WHERE ID = ${subscriberID}`)
+                return response.successResponse("Inscrito definido como recebedor de mensagem!")
+            }catch(error){
+                console.log(`Error in dbService.setSubscriberAsMessageReciever: ${error.message}`)
+                return response.errorResponse("Não foi possível definir inscrito como recebedor de mensagens.")
+            }
+        }
+        return result
+    }
+
 }

@@ -1,1 +1,14 @@
-{"action":"insertSubscribers","subscribers":"[{\"Name\":\"Gustavo\", \"Phone\":\"+5519983563057\"}, {\"Name\":\"Meyrielle\", \"Phone\":\"+5519983563058\"}, {\"Name\":\"Vinícius\", \"Phone\":\"+5519923563058\"}]"}
+{"action":"insertSubscribers","subscribers":"[{\"Name\":\"Gustavo\", \"Phone\":\"00000000\"}, {\"Name\":\"José\", \"Phone\":\"00000000\"}]"}
+Observação: Este comando possui um array de objetos, separados por vírgula. Por isso, é importante usar o escape (\"\") para delimitar as informações Name e Phone, que devem ser escritas exatamente assim. 
+
+{"action":"sendMessageWithLink","text":"Este evento já vai começar, não perca!!!","link":"https://www.youtube.com/watch?v=qxBMyq_TbGA&list=PLR6hBJiWw_k-LufkmrZgT5sMNTLfodKxK&index=2"}
+
+{"action":"getAllSubscribers"}
+
+{"action":"GetMessageRecievers"}
+
+{"action":"GetNoMessageRecievers"}
+
+{"action":"setSubscriberAsNoMessageReciever","phone":"00000000"}
+
+{"action":"setSubscriberAsMessageReciever","phone":"0000000"}
