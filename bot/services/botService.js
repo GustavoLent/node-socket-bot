@@ -3,7 +3,7 @@ import DialogService from "./dialogService"
 
 export default class BotService{
     async init(){
-        this.client = await venom.create( 'session', (base64Qrimg, asciiQR, attempts) => {}, (statusSession, session) => {}, { useChrome: false, browserArgs: ['--no-sandbox'] } ).then((client) => start(client));
+        this.client = await venom.create({ useChrome: false, browserArgs: ['--no-sandbox'] });
         this.dialogService = new DialogService()
         this.keepListening()
     }
