@@ -19,7 +19,7 @@ export default class DbService{
         return mysql.createConnection({
             "connectionLimit" : "10",
             "host": "localhost",
-            "user": "gustavo",
+            "user": "user",
             "password": "123456",
             "port": "3306",
             "database": "seccomp"
