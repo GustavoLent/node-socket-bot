@@ -11,9 +11,9 @@ socket.on('connect', () => {
     
     console.log("\n" + chalk.cyan(`Bem vindo, segue a lista de comandos disponíveis:`))
     
-    console.log("\n" + chalk.cyan(`{"action":"insertSubscribers","subscribers":"[{\"Name\":\"Gustavo\", \"Phone\":\"00000000\"}, {\"Name\":\"José\", \"Phone\":\"00000000\"}]"}`))
+    console.log("\n" + chalk.cyan(`{"action":"insertSubscribers","subscribers":"[{\"Phone\":\"00000000\"}, {\"Phone\":\"11111111\"}]"}`))
     console.log(chalk.red(`Observação:`) + chalk.white(`Este comando possui um array de objetos, separados por vírgula.\nPor isso, é importante usar o escape (\"\") para delimitar as informações Name e Phone, que devem ser escritas exatamente assim!`))
-    
+ 
     console.log("\n" + chalk.cyan(`{"action":"sendMessageWithLink","text":"Este evento já vai começar, não perca!!!","link":"https://www.youtube.com/watch?v=qxBMyq_TbGA&list=PLR6hBJiWw_k-LufkmrZgT5sMNTLfodKxK&index=2"}`))
     console.log("\n" + chalk.cyan(`{"action":"getAllSubscribers"}`))
     console.log("\n" + chalk.cyan(`{"action":"GetMessageRecievers"}`))

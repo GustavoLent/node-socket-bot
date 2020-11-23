@@ -1,8 +1,11 @@
 import DbService from './dbService'
+import ResponseService from './responseService'
+
 
 export default class SubscribersService{
     constructor(){
         this.db = new DbService()
+        this.response = new ResponseService()
     }
 
     async getAllSubscribers(){
@@ -21,13 +24,13 @@ export default class SubscribersService{
     }
     
     async insertSubscribers(message){
-        let { db } = this
+        let { db, response } = this
         let subscribers = this.identifySubscribers(message)
         
         if(subscribers)
             return await db.insertSubscribers(subscribers)
         else
-            return Response.errorResponse("Por favor, verifique a formatação na qual foram inseridos os novos inscritos.")
+            return response.errorResponse("Por favor, verifique a formatação na qual foram inseridos os novos inscritos.")
     }
 
     identifySubscribers(message){

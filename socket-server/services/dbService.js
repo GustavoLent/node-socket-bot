@@ -97,13 +97,14 @@ export default class DbService{
     }
 
     prepareInsert(subscribers){
-        let query = "INSERT INTO subscribers(Name, Phone) VALUES "
+        let query = "INSERT INTO subscribers(Phone) VALUES "
         let values = ""
         let errors = []
 
         subscribers.forEach(subscriber => {
-            if(subscriber.Name !== undefined && subscriber.Phone !== undefined){
-                values += `("${subscriber.Name}","${subscriber.Phone}"),`
+            if(subscriber.Phone !== undefined){
+                subscriber.Phone = this.verifyPhoneFormat(subscriber.Phone)
+                values += `("${subscriber.Phone}"),`
             } else{
                 errors.push(subscriber)
             }
@@ -170,6 +171,13 @@ export default class DbService{
             }
         }
         return result
+    }
+
+    verifyPhoneFormat (phone){
+        if(phone[0,1] != '55'){
+            phone = `55${phone}`
+        }
+        return phone
     }
 
 }
