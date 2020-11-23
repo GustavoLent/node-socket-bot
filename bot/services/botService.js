@@ -3,7 +3,7 @@ import DialogService from "./dialogService"
 
 export default class BotService{
     async init(){
-        this.client = await venom.create()
+        this.client = await venom.create({headless: true, useChrome: false})
         this.dialogService = new DialogService()
         this.keepListening()
     }
