@@ -3,7 +3,7 @@ const io = require('socket.io-client');
 export default class socketService{
     constructor(bot = null){
         this.bot = bot
-        this.socket = io.connect('http://localhost:3000')
+        this.socket = io.connect('13.68.156.180:3000')
     }
 
     keepListening(){
