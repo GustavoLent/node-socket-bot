@@ -5,10 +5,10 @@ export default class BotService{
     async init(){
         this.client = await venom.create({headless: true, useChrome: false, logQR: true})
         this.dialogService = new DialogService()
-        this.keepListening()
+        //this.keepChatListening()
     }
 
-    async keepListening() {
+    async keepChatListening() {
         let { client, dialogService } = this
         
         client.onMessage(async (message) => {

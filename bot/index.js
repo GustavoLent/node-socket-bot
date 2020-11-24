@@ -5,6 +5,6 @@ import SocketService from './services/socketService';
     const bot = new BotService()
     const socketService = new SocketService(bot)
     await bot.init()
-    //socketService.keepListening()
+    socketService.keepListening()
     
 })();
